@@ -3,8 +3,9 @@
         "phpunit/phpunit": "^6"
     },
     "autoload": {
-        "psr-4" : {
+        "psr-4": {
 	    "WPCT\\": "class/"
-	}
+	},
+        "files": ["WPCTSettings.php"]
     }
 }
