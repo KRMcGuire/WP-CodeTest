@@ -6,7 +6,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 function WPCTbuildTable() {
     $apiKey = get_option("wpct-api-key");
-    $teamsData = new WPCT\Supporting\TeamsData($apiKey);
+    $teamsData = new WPCT\Supporting\TeamsData($apiKey, 'http://delivery.chalk247.com/team_list/NFL.JSON?api_key=');
     $html = $teamsData->getMarkup();
 
     return $html;
