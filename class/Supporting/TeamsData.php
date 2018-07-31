@@ -7,21 +7,30 @@ class TeamsData
 
     //The API key
     private $apiKey;
+    
+    //The API's URL
+    private $apiURL;    
+	
     //The associative array representing the JSON data
     private $jsonData;
+
+    //An associative array built from jsonData, but sorted for the markup builder.
     private $sortedData;
-    //The 
+
+    //The final HTML string produced at the end of the building process. 
     private $markupString;
 
     /**
      * Construct the TeamData object
      *
      * @param string $key The API key for the server
+     * @param string $url The URL for the server
      *
      * @return TeamsData
      */
-    public function __construct($key) {
+    public function __construct($key, $url) {
 	$this->apiKey = $key;
+	$this->apiURL = $url;
 	$this->fetchData();
     }
 
@@ -52,9 +61,9 @@ class TeamsData
      */
     private function _fetchJSON($key = false) {
 	if (!$key) {
-	    $rawJSON = file_get_contents("http://delivery.chalk247.com/team_list/NFL.JSON?api_key=" . $this->apiKey);
+	    $rawJSON = file_get_contents($this->apiURL . $this->apiKey);
 	} else {
-	    $rawJSON = file_get_contents("http://delivery.chalk247.com/team_list/NFL.JSON?api_key=" . $key);
+	    $rawJSON = file_get_contents($this->apiURL . $key);
 	}
 
 	if  ($rawJSON == false) {
@@ -123,6 +132,26 @@ class TeamsData
     }
 
     /**
+     * Get the API's URL.
+     *
+     * @return string
+     */
+    public function getAPIURL() {
+	return $this->apiURL;
+    }
+
+    /**
+     * Set the API's URL
+     *
+     * @param string $url The URL to set
+     *
+     * @return void
+     */
+    public function setAPIURL($url) {
+        $this->apiURL = $url;
+    }
+
+    /**
      * Get the JSON array
      *
      * @return Associative Array
@@ -148,6 +177,7 @@ class TeamsData
     public function getMarkup() {
 	return $this->markupString;
     }
+
 
 
 
