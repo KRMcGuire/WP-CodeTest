@@ -42,12 +42,15 @@ class TeamsData
      * @return void
      */
     public function fetchData($key = false) {
+	$this->jsonData = false;
+	$this->sortedData = false;
+	$this->markupString = false;
 	if (!$key) {
 	    $this->_fetchJSON();
 	} else {
             $this->_fetchJSON($key);
 	}
-	$this->_buildMarkup();
+        $this->_buildMarkup();
     }
 
     /**
@@ -61,18 +64,19 @@ class TeamsData
      */
     private function _fetchJSON($key = false) {
 	if (!$key) {
-	    $rawJSON = file_get_contents($this->apiURL . $this->apiKey);
+	    $rawJSON = @file_get_contents($this->apiURL . $this->apiKey);
 	} else {
-	    $rawJSON = file_get_contents($this->apiURL . $key);
+	    $rawJSON = @file_get_contents($this->apiURL . $key);
 	}
 
-	if  ($rawJSON == false) {
-	    return false;
+	if  ($rawJSON === false) {
+            throw new \Exception("Invalid JSON path");
 	}
 	
 	$processedJSON = json_decode($rawJSON, true);
 	
 	if ($processedJSON == false) {
+	    throw new \Exception("JSON was unable to be parsed");
 	    return false;
 	}
 
@@ -93,7 +97,7 @@ class TeamsData
      */
     private function _buildMarkup() {
 	if (!$this->jsonData) {
-	    return "";
+	    $this->markupString = false;
 	}
 
 	$markupString = "";
