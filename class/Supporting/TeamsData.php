@@ -100,7 +100,7 @@ class TeamsData
 	    $this->markupString = false;
 	}
 
-	$markupString = "";
+	$markupString = "<div id='teams'><p><input id='teamfilter'></input> <button onclick='wpctFilter()'>filter</button></p>";
 	foreach ($this->sortedData as $conference => $divisions) {
 	    $markupString .= "<h2>$conference</h2>";
 	    foreach ($divisions as $division => $teams) {
@@ -111,6 +111,7 @@ class TeamsData
 		$markupString .= "</ul>";
 	    }
 	}
+	$markupString .= "</div>";
 	$this->markupString = $markupString;
     }
 
