@@ -13,11 +13,12 @@ class TeamsDataTest extends PHPUnit\Framework\TestCase {
     public function testWorksFromValidFile() {
 	$teamData = new WPCT\Supporting\TeamsData("34", __DIR__ . "/resources/full.json?api_key=");
 	//agh
-	$testString = "<h2>NFC</h2><h3>West</h3><ul><li>Arizona</li><li>LA Rams</li><li>San Francisco</li><li>Seattle</li></ul><h3>South</h3><ul><li>Atlanta</li><li>Carolina</li>"
+	$testString = "<div id='teams'><p><input id='teamfilter'></input> <button onclick='wpctFilter()'>filter</button></p>"
+            . "<h2>NFC</h2><h3>West</h3><ul><li>Arizona</li><li>LA Rams</li><li>San Francisco</li><li>Seattle</li></ul><h3>South</h3><ul><li>Atlanta</li><li>Carolina</li>"
 	    . "<li>New Orleans</li><li>Tampa Bay</li></ul><h3>North</h3><ul><li>Chicago</li><li>Detroit</li><li>Green Bay</li><li>Minnesota</li></ul><h3>East</h3><ul><li>Dallas</li>"
 	    . "<li>NY Giants</li><li>Philadelphia</li><li>Washington</li></ul><h2>AFC</h2><h3>North</h3><ul><li>Baltimore</li><li>Cincinnati</li><li>Cleveland</li><li>Pittsburgh</li>"
 	    . "</ul><h3>East</h3><ul><li>Buffalo</li><li>Miami</li><li>NY Jets</li><li>New England</li></ul><h3>West</h3><ul><li>Denver</li><li>Kansas City</li><li>LA Chargers</li>"
-	    . "<li>Oakland</li></ul><h3>South</h3><ul><li>Houston</li><li>Indianapolis</li><li>Jacksonville</li><li>Tennessee</li></ul>";
+	    . "<li>Oakland</li></ul><h3>South</h3><ul><li>Houston</li><li>Indianapolis</li><li>Jacksonville</li><li>Tennessee</li></ul></div>";
 	$this->assertEquals($testString, $teamData->getMarkup());
 	
 	return $teamData;
@@ -29,7 +30,8 @@ class TeamsDataTest extends PHPUnit\Framework\TestCase {
     public function testWorksFromRebuild($teamData) {
 	$teamData->setAPIKey('20');
 	$teamData->setAPIURL(__DIR__ . "/resources/partial.json?api_key=");
-	$testString = "<h2>NFC</h2><h3>West</h3><ul><li>Arizona</li><li>LA Rams</li></ul><h3>East</h3><ul><li>Dallas</li></ul>";
+	$testString = "<div id='teams'><p><input id='teamfilter'></input> <button onclick='wpctFilter()'>filter</button></p>"
+	    . "<h2>NFC</h2><h3>West</h3><ul><li>Arizona</li><li>LA Rams</li></ul><h3>East</h3><ul><li>Dallas</li></ul></div>";
 
 	$teamData->fetchData();
 	$this->assertEquals($testString, $teamData->getMarkup());
